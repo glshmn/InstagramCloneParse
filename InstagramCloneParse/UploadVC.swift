@@ -8,18 +8,42 @@
 
 import UIKit
 
-class SecondViewController: UIViewController {
-
+class UploadVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    
+    @IBOutlet weak var postImage: UIImageView!
+    @IBOutlet weak var postCommentText: UITextView!
+    @IBOutlet weak var postButton: UIButton!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        postImage.isUserInteractionEnabled = true
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UploadVC.choosePhoto))
+        postImage.addGestureRecognizer(gestureRecognizer)
+        
+}
+    @objc func choosePhoto() {
+        
+        let pickerController = UIImagePickerController()
+        pickerController.delegate = self
+        pickerController.sourceType = .photoLibrary
+        pickerController.allowsEditing = true
+        present(pickerController, animated: true, completion: nil)
+        
+        
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        postImage.image = info[UIImagePickerControllerEditedImage] as? UIImage
+        self.dismiss(animated: true, completion: nil)
+        
     }
-
+    
+    @IBAction func postButtonClicked(_ sender: Any) {
+    }
+    
 
 }
 
